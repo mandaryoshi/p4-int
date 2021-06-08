@@ -1,4 +1,3 @@
-
 /*************************************************************************
 *********************** P A R S E R  *******************************
 *************************************************************************/
@@ -62,8 +61,62 @@ parser MyIngressParser(packet_in packet,
     }
 }
 
+
 /*************************************************************************
-*********************** P A R S E R  *******************************
+************   C H E C K S U M    V E R I F I C A T I O N   *************
+*************************************************************************/
+
+control MyIngressDeparser(packet_out packet, 
+                            inout headers hdr, 
+                            in local_metadata_t local_metadata, 
+                            in ingress_intrinsic_metadata_for_deparser_t ig_dprsr_md) {   
+    
+    
+    Mirror() mirror;
+    
+    apply {
+
+        if(ig_dprsr_md.mirror_type == 3w1) {
+            mirror.emit<mirror_h>(local_metadata.ing_mir_ses, 
+            {local_metadata.pkt_type, 
+            hdr.local_report_header.ingress_port_id, 
+            hdr.local_report_header.egress_port_id, 
+            hdr.local_report_header.queue_id, 
+            hdr.local_report_header.ingress_global_tstamp,
+            hdr.intl4_shim.int_type,
+            hdr.intl4_shim.npt,               
+            hdr.intl4_shim.rsvd,                  
+            hdr.intl4_shim.len,                     
+            hdr.intl4_shim.udp_ip_dscp,          
+            hdr.intl4_shim.udp_ip,            
+            hdr.int_header.ver,                    
+            hdr.int_header.d,                      
+            hdr.int_header.rsvd,                                  
+            hdr.int_header.instruction_mask_0003, 
+            hdr.int_header.instruction_mask_0407,
+            hdr.int_header.instruction_mask_0811,
+            hdr.int_header.instruction_mask_1215,
+            hdr.int_header.domain_specific_id,     
+            hdr.int_header.ds_instruction,         
+            hdr.int_header.ds_flags     
+            });
+        }
+        
+        //packet.emit(hdr);
+        packet.emit(hdr.local_report_header);
+        packet.emit(hdr.ethernet);
+        packet.emit(hdr.ipv4);
+        packet.emit(hdr.udp);
+        packet.emit(hdr.tcp);
+
+        packet.emit(hdr.intl4_shim);
+        packet.emit(hdr.int_header);
+    }
+}
+
+
+/*************************************************************************
+****************  E G R E S S   P R O C E S S I N G   *******************
 *************************************************************************/
 
 parser MyEgressParser(packet_in packet,
@@ -144,58 +197,6 @@ parser MyEgressParser(packet_in packet,
 
     state parse_int_hdr {
         packet.extract(hdr.int_header);
-    }
-}
-
-/*************************************************************************
-************   C H E C K S U M    V E R I F I C A T I O N   *************
-*************************************************************************/
-
-control MyIngressDeparser(packet_out packet, 
-                            inout headers hdr, 
-                            in local_metadata_t local_metadata, 
-                            in ingress_intrinsic_metadata_for_deparser_t ig_dprsr_md) {   
-    
-    
-    Mirror() mirror;
-    
-    apply {
-
-        if(ig_dprsr_md.mirror_type == 3w1) {
-            mirror.emit<mirror_h>(local_metadata.ing_mir_ses, 
-            {local_metadata.pkt_type, 
-            hdr.local_report_header.ingress_port_id, 
-            hdr.local_report_header.egress_port_id, 
-            hdr.local_report_header.queue_id, 
-            hdr.local_report_header.ingress_global_tstamp,
-            hdr.intl4_shim.int_type,
-            hdr.intl4_shim.npt,               
-            hdr.intl4_shim.rsvd,                  
-            hdr.intl4_shim.len,                     
-            hdr.intl4_shim.udp_ip_dscp,          
-            hdr.intl4_shim.udp_ip,            
-            hdr.int_header.ver,                    
-            hdr.int_header.d,                      
-            hdr.int_header.rsvd,                                  
-            hdr.int_header.instruction_mask_0003, 
-            hdr.int_header.instruction_mask_0407,
-            hdr.int_header.instruction_mask_0811,
-            hdr.int_header.instruction_mask_1215,
-            hdr.int_header.domain_specific_id,     
-            hdr.int_header.ds_instruction,         
-            hdr.int_header.ds_flags     
-            });
-        }
-        
-        //packet.emit(hdr);
-        packet.emit(hdr.local_report_header);
-        packet.emit(hdr.ethernet);
-        packet.emit(hdr.ipv4);
-        packet.emit(hdr.udp);
-        packet.emit(hdr.tcp);
-
-        packet.emit(hdr.intl4_shim);
-        packet.emit(hdr.int_header);
     }
 }
 

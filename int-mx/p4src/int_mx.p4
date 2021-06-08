@@ -87,7 +87,7 @@ control MyIngress(inout headers hdr,
 }
 
 /*************************************************************************
-****************  E G R E S S   P R O C E S S I N G   *******************
+****************  E G R E S S   P R O C E S S I N G   ********************
 *************************************************************************/
 
 control MyEgress(inout headers hdr,
@@ -99,7 +99,7 @@ control MyEgress(inout headers hdr,
     
     
     apply {
-        if(hdr.int_header.isValid() && local_metadata.sink == _FALSE) {
+        if(hdr.int_header.isValid() && local_metadata.mirror == _FALSE) {
 
             process_set_sink.apply(hdr, local_metadata, eg_intr_md);
 
@@ -115,7 +115,7 @@ control MyEgress(inout headers hdr,
             
         }
 
-        if (local_metadata.sink == _TRUE) {
+        if (local_metadata.mirror == _TRUE) {
             process_int_transit.apply(hdr, local_metadata, eg_intr_md, eg_prsr_md);
             process_int_report.apply(hdr, local_metadata, eg_intr_md);
         }

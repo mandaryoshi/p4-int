@@ -145,7 +145,7 @@ header int_header_t {
 
 const bit<16> INT_HEADER_SIZE = 12;
 
-const bit<16> INT_TOTAL_HEADER_SIZE = 16; // 12 + 4 
+const bit<16> INT_TOTAL_HEADER_SIZE = 16; // 12 (INT Header) + 4 (Shim Header)
 
 
 // INT meta-value headers - different header for each value type
@@ -176,14 +176,14 @@ header int_level2_port_ids_t {
 
 // these two not implemented yet
 header int_egress_port_tx_util_t {
-    bit<32> egress_port_tx_util;
+    bit<32> egress_port_tx_util;            // This is used but the queue latency is gathered instead
 }
 header int_buffer_t {
     bit<8> buffer_id;
     bit<24> buffer_occupancy;
 }
 
-// Report Telemetry Headers
+// Report Telemetry Headers - Group Header
 header report_group_header_t {
     bit<4>  ver;
     bit<6>  hw_id;
@@ -192,6 +192,7 @@ header report_group_header_t {
 }
 const bit<8> REPORT_GROUP_HEADER_LEN = 8;
 
+// Report Telemetry Headers - Individual Header
 header report_individual_header_t {
     bit<4>  rep_type;
     bit<4>  in_type;
@@ -210,7 +211,7 @@ header report_individual_header_t {
 }
 const bit<8> REPORT_INDIVIDUAL_HEADER_LEN = 12;
 
-// Telemetry drop report header
+// Telemetry drop report header - not implemented yet
 header drop_report_header_t {
     bit<32> switch_id;
     bit<16> ingress_port_id;
@@ -221,7 +222,7 @@ header drop_report_header_t {
 }
 const bit<8> DROP_REPORT_HEADER_LEN = 12;
 
-// Switch Local Report Header
+// Switch Local Report Header - Used as a bridge header between ingress and egress pipelines
 header local_report_header_t {
     bit<16> ingress_port_id;
     bit<16> egress_port_id;
@@ -232,7 +233,9 @@ header local_report_header_t {
 
 const bit<8> LOCAL_REPORT_HEADER_LEN = 16;
 
-header mirror_h {
+// This mirrored header is passed for the ingress to egress mirror of the packet
+// This contains the bridged data and int headers (shim and instruction header)
+header mirror_h {                   
     pkt_type_t  pkt_type;
     bit<16> ingress_port_id;
     bit<16> egress_port_id;
