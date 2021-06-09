@@ -39,6 +39,13 @@
 #include <core.p4>
 #include <tna.p4>
 
+#include "int/headers.p4"
+#include "int/parsers.p4"
+#include "int/sink.p4"
+#include "int/transit.p4"
+#include "int/source.p4"
+#include "int/forward.p4"
+
 /*************************************************************************
 ****************  I N G R E S S   P R O C E S S I N G   ******************
 *************************************************************************/
