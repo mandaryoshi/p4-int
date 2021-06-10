@@ -33,6 +33,16 @@ Packets can be sent from server1, and tcpdump/wireshark can be used to see the o
 $ wireshark -X lua_script:int_telemetry_report.lua
 ```
 
+### Hardware Setup
+
+The hardware setup with the two servers and three switches can be seen in the following figure. 
+![Hardware setup](../figures/hardware-topo.png)
+
+
+### TRex
+
+The [TRex](https://trex-tgn.cisco.com/) program was used to generate traffic in order to test the INT implementation. TRex v2.87 was used as a [GUI](https://github.com/cisco-system-traffic-generator/trex-stateless-gui) was available for this version. The stateless mode of TRex was used. 
+
 ### INTCollector
 
 With this mode of operation, traffic can be analysed visually using [INTCollector](https://gitlab.com/tunv_ebpf/BPFCollector/). Install this as per the instructions in the repository. This implementation has been tested with Linux kernel `4.15`. The InfluxDB implementation was used, along with Grafana. Examples of output from this program can be seen in the Figures below. 
