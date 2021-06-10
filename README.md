@@ -14,7 +14,7 @@ The p4 programs for the INT-MX and INT-XD are the same, the only difference bein
 
 The P4 code can be compiled by using the build script in the SDE, for instance
 ```
-./p4_build.sh int_mx.p4
+  ./p4_build.sh int_mx.p4
 ```
 
 Additional information is provided in the folders for each mode of operation: [INT-MD 1.0](int-md-1-0/README.md), [INT-MD 2.1](int-md-2-1/README.md), [INT-MX](int-mx/README.md) and [INT-XD](int-xd/README.md). Each folder also contains the topology used. 
@@ -23,7 +23,11 @@ Additional information is provided in the folders for each mode of operation: [I
 
 Run the P4 code as follows, for example:
 ```
-$SDE/run_switchd.sh -p int_mx
+  $SDE/run_switchd.sh -p int_mx
+```
+If running with the Tofino model, first run:
+```
+  $SDE/run_tofino_model.sh -p int_mx
 ```
 
 ## Limitations
