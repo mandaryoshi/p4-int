@@ -104,7 +104,7 @@ With this mode of operation, traffic can be analysed visually using [INTCollecto
       sudo dpkg -i influxdb_1.2.4_amd64.deb
       sudo systemctl start influxdb
   ```
-* Install Grafana
+* Install [Grafana](https://grafana.com/docs/grafana/latest/installation/debian/)
   ```
       sudo apt-get install -y apt-transport-https
       sudo apt-get install -y software-properties-common wget
