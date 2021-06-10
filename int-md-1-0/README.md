@@ -36,7 +36,7 @@ $ wireshark -X lua_script:int_telemetry_report.lua
 ### Hardware Setup
 
 The hardware setup with the two servers and three switches can be seen in the following figure. 
-![Hardware setup](../figures/hardware-topo.png)
+![Hardware setup](../figures/hardware_topo.png)
 
 
 ### TRex
