@@ -6,6 +6,10 @@ This project implements the three INT modes of operations as specified in the sp
 
 The code was tested on `Stordis BF6064X-T` Tofino switches, running SDE version `9.4.0` using `Ubuntu 18.04.5 LTS`. The program used to generate traffic was `TRex`.
 
+A more detailed description about the tested topology and setup with `TRex` and `INTCollector` can be found in the INT-MD 1.0 directory. 
+
+The p4 programs for the INT-MX and INT-XD are the same, the only difference being the tables that are run on the switches. 
+
 ## Build
 
 The P4 code can be compiled by using the build script in the SDE, for instance
